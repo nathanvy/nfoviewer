@@ -16,6 +16,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         wc?.showWindow(self)        
     }
 
+    func application(_ sender: NSApplication, openFile filename: String) -> Bool {
+        wc?.open(url: URL(fileURLWithPath: filename))
+        return true
+    }
+    
+    func application(_ sender: NSApplication, openFiles filenames: [String]) {
+        if let first = filenames.first {
+            wc?.open(url: URL(fileURLWithPath: first))
+        }
+        sender.reply(toOpenOrPrint: .success)
+    }
+
+
     @objc private func openNFO(_ sender: Any?) {
         let panel = NSOpenPanel()
         panel.allowsMultipleSelection = false
@@ -63,6 +76,22 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                          action: #selector(NSWindow.performClose(_:)),
                          keyEquivalent: "w")
 
+        // Edit menu
+        let editItem = NSMenuItem()
+        main.addItem(editItem)
+        
+        let editMenu = NSMenu(title: "Edit")
+        editItem.submenu = editMenu
+        
+        editMenu.addItem(withTitle: "Copy",
+                         action: #selector(NSText.copy(_:)),
+                         keyEquivalent: "c")
+        
+        editMenu.addItem(withTitle: "Select All",
+                         action: #selector(NSText.selectAll(_:)),
+                         keyEquivalent: "a")
+
+        
         return main
     }
 }

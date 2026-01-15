@@ -15,6 +15,7 @@ final class NFOWindowController: NSWindowController, NSWindowDelegate {
         window.title = "NFO Viewer"
         window.delegate = self
         setupUI()
+        window.makeFirstResponder(textView)
         textView.string = "File -> Open or drop a .nfo file"
         applyViewerStyling()
     }
