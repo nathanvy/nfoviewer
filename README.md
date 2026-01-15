@@ -11,7 +11,6 @@ make
 ## Optionally "install" to Applications folder
 ```
 sudo cp -R build/NFOViewer.app /Applications/NFOViewer.app
-sudo chown -R root:wheel /Applications/NFOViewer.app
 
 # tell Gatekeeper to stfu
 sudo xattr -dr com.apple.quarantine /Applications/NFOViewer.app
