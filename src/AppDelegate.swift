@@ -2,7 +2,16 @@ import Cocoa
 
 final class AppDelegate: NSObject, NSApplicationDelegate {
     private var wc: NFOWindowController?
+
+    private var pendingOpenURLs: [URL] = []
     
+    private func ensureWindow() {
+        if wc == nil {
+            wc = NFOWindowController()
+            wc?.showWindow(self)
+        }
+    }
+
     func applicationDidFinishLaunching(_ notification: Notification) {
         NSApp.setActivationPolicy(.regular)
         NSApp.activate(ignoringOtherApps: true)
@@ -12,8 +21,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         FontRegistration.registerFont(named: "dos437.ttf")
         // FontRegistration.dumpFontNames(named: "dos437.ttf") // enable once if needed
         
-        wc = NFOWindowController()
-        wc?.showWindow(self)        
+        if pendingOpenURLs.isEmpty {
+            ensureWindow()
+        } else {
+            ensureWindow()
+            for url in pendingOpenURLs { wc?.open(url: url) }
+            pendingOpenURLs.removeAll()
+        }
     }
 
     func application(_ sender: NSApplication, openFile filename: String) -> Bool {
@@ -28,6 +42,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         sender.reply(toOpenOrPrint: .success)
     }
 
+    func application(_ application: NSApplication, open urls: [URL]) {
+        ensureWindow()
+        if let first = urls.first {
+            wc?.open(url: first)
+        }
+    }
 
     @objc private func openNFO(_ sender: Any?) {
         let panel = NSOpenPanel()
