@@ -1,5 +1,5 @@
 # NFO Viewer
-A simple, lightweight viewer for Code Page 437 text files (sometimes called "ANSI Art"), commonly distributed as `.nfo` files, especially in Scene releases.
+A simple, lightweight pure Cocoa viewer for Code Page 437 text files (sometimes called "ANSI Art"), commonly distributed as `.nfo` files, especially in Scene releases.
 
 ## Building from source
 ```
